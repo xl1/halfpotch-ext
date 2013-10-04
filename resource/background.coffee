@@ -1,19 +1,19 @@
 xhrdoc = (url) ->
-  new Promise (resolver) ->
+  new Promise (resolve, reject) ->
     xhr = new XMLHttpRequest()
     xhr.open 'GET', url, true
     xhr.responseType = 'document'
-    xhr.onload  = -> resolver.resolve(xhr.response)
-    xhr.onerror = -> resolver.reject()
+    xhr.onload  = -> resolve(xhr.response)
+    xhr.onerror = -> reject()
     xhr.send()
 
 xhrpost = (url, param) ->
-  new Promise (resolver) ->
+  new Promise (resolve, reject) ->
     xhr = new XMLHttpRequest()
     xhr.open 'POST', url, true
     xhr.setRequestHeader 'Content-Type', 'application/x-www-form-urlencoded'
-    xhr.onload  = -> resolver.resolve(xhr.response)
-    xhr.onerror = -> resolver.reject()
+    xhr.onload  = -> resolve(xhr.response)
+    xhr.onerror = -> reject()
     xhr.send(param)
 
 addToCart = ({ storeId, lotId, amount }) ->
@@ -22,7 +22,6 @@ addToCart = ({ storeId, lotId, amount }) ->
   xhrdoc(url).then (doc) ->
     step = +doc.getElementsByName('RD')[0].value
     amount = step * Math.ceil(amount / step)
-    doc.querySelector('[name^=qd]').value = amount
     
     url = doc.forms[0].action
     param = "qd#{lotId}=#{amount}"
@@ -39,7 +38,7 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
           a.push p.storeId
         a
       , [] 
-      Promise.every(request.solution.map(addToCart)...).then ->
+      Promise.all(request.solution.map(addToCart)...).then ->
         for storeId in storeIds
           chrome.tabs.create {
             url: "http://www.bricklink.com/store.asp?sID=#{storeId}"
