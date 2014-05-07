@@ -5,7 +5,8 @@
   "background": {
     "scripts": [
       "/resource/background.js"
-    ]
+    ],
+    "persistent": false
   },
   "content_scripts": [{
     "js": [
