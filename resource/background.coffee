@@ -22,7 +22,7 @@ addToCart = ({ storeId, lotId, amount }) ->
   xhrdoc(url).then (doc) ->
     step = +doc.getElementsByName('RD')[0].value
     amount = step * Math.ceil(amount / step)
-    
+
     url = doc.forms[0].action
     param = "qd#{lotId}=#{amount}"
     for { name, value } in doc.querySelectorAll('input[type=hidden]')
@@ -38,7 +38,7 @@ chrome.runtime.onMessage.addListener (request, sender, callback) ->
           a.push p.storeId
         a
       , [] 
-      Promise.all(request.solution.map(addToCart)...).then ->
+      Promise.all(request.solution.map addToCart).then ->
         for storeId in storeIds
           chrome.tabs.create {
             url: "http://www.bricklink.com/store.asp?sID=#{storeId}"

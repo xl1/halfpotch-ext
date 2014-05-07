@@ -11,7 +11,7 @@ optimizer = ->
     elem.value = 'カートに入れる'
     elem
 
-  
+
   new MutationObserver((mutations) ->
     table = mutations.pop().addedNodes[0]
     return unless table
