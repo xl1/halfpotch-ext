@@ -38,7 +38,7 @@
   addToCart = function(_arg) {
     var amount, lotId, storeId, url;
     storeId = _arg.storeId, lotId = _arg.lotId, amount = _arg.amount;
-    url = 'http://www.bricklink.com/storeDetail.asp' + ("?h=" + storeId + "&itemID=" + lotId);
+    url = 'http://www.bricklink.com/storeDetail.asp' + ("?b=0&h=" + storeId + "&itemID=" + lotId);
     return xhrdoc(url).then(function(doc) {
       var name, param, step, value, _i, _len, _ref, _ref1;
       step = +doc.getElementsByName('RD')[0].value;

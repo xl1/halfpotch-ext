@@ -18,7 +18,7 @@ xhrpost = (url, param) ->
 
 addToCart = ({ storeId, lotId, amount }) ->
   url = 'http://www.bricklink.com/storeDetail.asp' + 
-    "?h=#{storeId}&itemID=#{lotId}"
+    "?b=0&h=#{storeId}&itemID=#{lotId}"
   xhrdoc(url).then (doc) ->
     step = +doc.getElementsByName('RD')[0].value
     amount = step * Math.ceil(amount / step)
